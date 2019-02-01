@@ -25,7 +25,7 @@ if "endpoint" not in conf:
    sys.exit(1)
 
 
-endpoint = "https://damejidlo.talon.one/v1/applications/1/export_effects"
+endpoint = "{0}".format(conf["endpoint"])
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
 data = requests.get(endpoint,headers=headers)
