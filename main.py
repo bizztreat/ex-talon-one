@@ -20,8 +20,14 @@ with open("/data/config.json","r") as conf_file:
 if "#bearer" not in conf:
    print("Missing required parameter \'#bearer\'", file=sys.stderr)
    sys.exit(1)
+if "project" not in conf:
+   print("Missing required parameter \'project\'", file=sys.stderr)
+   sys.exit(1)
+if "application-id" not in conf:
+   print("Missing required parameter \'application-id\'", file=sys.stderr)
+   sys.exit(1)
 if "endpoint" not in conf:
-   print("Missing required parameter \'endpoint\'", file=sys.stderr)
+   print("Choose parameter \'endpoint\'", file=sys.stderr)
    sys.exit(1)
 
 
