@@ -42,7 +42,7 @@ if "message" in content:
     print("ERROR:" ,content, file=sys.stderr)
     sys.exit(1)
 
-
-with open("/data/out/tables/content.csv","w") as outfile:
-  outfile.write(content)
+else:
+        with open("/data/out/tables/content.csv","w") as outfile:
+                outfile.write(content)
 
