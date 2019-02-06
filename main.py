@@ -7,6 +7,7 @@ import os
 import sys
 import traceback
 
+
 conf_path = ("/data/config.json" if os.path.exists("/data/config.json") else ("/code/config.json" if os.path.exists("/code/config.json") else "config.json"))
 
 
@@ -36,6 +37,11 @@ headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
 data = requests.get(endpoint,headers=headers)
 content = data.text
+
+if "message" in content:
+    print("ERROR:" ,content, file=sys.stderr)
+    sys.exit(1)
+
 
 with open("/data/out/tables/content.csv","w") as outfile:
   outfile.write(content)
