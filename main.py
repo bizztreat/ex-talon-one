@@ -39,9 +39,12 @@ data = requests.get(endpoint,headers=headers)
 content = data.text
 
 if "message" in content:
-    print("ERROR:" ,content, file=sys.stderr)
-    sys.exit(1)
-
+    print("ERROR", content)
+    
+elif data.status_code!= 200:
+       print("ERROR:" ,content, file=sys.stderr)
+       sys.exit(1)
+    
 else:
         with open("/data/out/tables/content.csv","w") as outfile:
                 outfile.write(content)
