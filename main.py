@@ -35,18 +35,30 @@ if "endpoint" not in conf:
 endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}".format(conf["project"], conf["application-id"], conf["endpoint"])
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
-data = requests.get(endpoint,headers=headers)
-content = data.text
 
-if "message" in content:
-        print("ERROR:" ,content, file=sys.stderr)
-        sys.exit(1)
-    
-elif data.status_code!= 200:
-       print("ERROR:" ,content, file=sys.stderr)
-       sys.exit(1)
-    
-else:
-         with open("/data/out/tables/content.csv","w") as outfile:
+
+try:
+    r = requests.get(endpoint,headers=headers,timeout=3)
+    r.raise_for_status()
+except requests.exceptions.HTTPError as errh:
+    print ("Http Error:",errh,file=sys.stderr)
+    traceback.print_exc(file=sys.stderr)
+    sys.exit(2)
+except requests.exceptions.ConnectionError as errc:
+    print ("Error Connecting:",errc,file=sys.stderr)
+    traceback.print_exc(file=sys.stderr)
+    sys.exit(2)
+except requests.exceptions.Timeout as errt:
+    print ("Timeout Error:",errt,file=sys.stderr)
+    traceback.print_exc(file=sys.stderr)
+    sys.exit(2)
+except requests.exceptions.RequestException as err:
+    print ("OOps: Something Else",err,file=sys.stderr)
+    traceback.print_exc(file=sys.stderr)
+    sys.exit(2)
+
+content = r.text
+
+with open("/data/out/tables/content.csv","w") as outfile:
                 outfile.write(content)
 
