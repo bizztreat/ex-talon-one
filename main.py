@@ -32,7 +32,7 @@ if "endpoint" not in conf:
    sys.exit(1)
 
 
-endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}".format(conf["project"], conf["application-id"], conf["endpoint"])
+endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}/{3}".format(conf["project"], conf["application-id"], conf["endpoint"], conf["customerId"])
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
 
