@@ -72,10 +72,10 @@ if "customerId" in conf:
         dic['loyaltyMemberships']=dic1['loyaltyMemberships']
         dic['lastActivity']=dic1['lastActivity']
 
-        f = open("/data/out/tables/content.csv",'w')
-        w = csv.DictWriter(f, fieldnames=dic.keys())
-        w.writerow(dic)
-        f.close()
+
+        with open("/data/out/tables/content.csv", 'w') as outfile:
+                writer = csv.writer(outfile)
+                writer.writerows(dic)
         
 else:
         with open("/data/out/tables/content.csv","w") as outfile:
