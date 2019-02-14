@@ -73,7 +73,7 @@ if "customerId" in conf:
         dic['lastActivity']=dic1['lastActivity']
 
 
-        f = open('mycsvfile.csv','w')
+        f = open("/data/out/tables/content.csv",'w')
         w = csv.DictWriter(f, fieldnames=dic.keys())
         w.writeheader()
         w.writerow(dic)
