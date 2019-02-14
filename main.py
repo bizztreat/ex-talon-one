@@ -31,11 +31,12 @@ if "endpoint" not in conf:
    print("Choose parameter \'endpoint\'", file=sys.stderr)
    sys.exit(1)
 
+if "customerId" in conf:
+        endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}/{3}".format(conf["project"], conf["application-id"], conf["endpoint"], conf["customerId"])
+else:
+        endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}".format(conf["project"], conf["application-id"], conf["endpoint"])
 
-endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}/{3}".format(conf["project"], conf["application-id"], conf["endpoint"], conf["customerId"])
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
-
-
 
 try:
     r = requests.get(endpoint,headers=headers,timeout=3)
@@ -59,6 +60,24 @@ except requests.exceptions.RequestException as err:
 
 content = r.text
 
-with open("/data/out/tables/content.csv","w") as outfile:
+if "customerId" in conf:
+        dic1 = json.loads(content)
+        dic=dic1['attributes']
+        dic['id']=dic1['id']    
+        dic['created']=dic1['created']
+        dic['integrationId']=dic1['integrationId']
+        dic['accountId']=dic1['accountId']
+        dic['closedSessions']=dic1['closedSessions']
+        dic['totalSales']=dic1['totalSales']
+        dic['loyaltyMemberships']=dic1['loyaltyMemberships']
+        dic['lastActivity']=dic1['lastActivity']
+
+        f = open("/data/out/tables/content.csv",'w')
+        w = csv.DictWriter(f, fieldnames=dic.keys())
+        w.writerow(dic)
+        f.close()
+        
+else:
+        with open("/data/out/tables/content.csv","w") as outfile:
                 outfile.write(content)
 
