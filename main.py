@@ -30,11 +30,11 @@ if "application-id" not in conf:
 if "endpoint" not in conf:
    print("Choose parameter \'endpoint\'", file=sys.stderr)
    sys.exit(1)
-if "customerId" in conf and "endpoint"!='customers':
+if "customerId" in conf and conf["endpoint"]!='customers':
         print("Choose parameter \'endpoint\'=\'customers\'", file=sys.stderr)
         sys.exit(1)
 
-if "customerId" in conf and "endpoint"=='customers':
+if "customerId" in conf and conf["endpoint"]=='customers':
         endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}/{3}".format(conf["project"], conf["application-id"], conf["endpoint"], conf["customerId"])
 else:
         endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}".format(conf["project"], conf["application-id"], conf["endpoint"])
@@ -63,7 +63,7 @@ except requests.exceptions.RequestException as err:
 
 content = r.text
 
-if "customerId" in conf or "endpoint"=='customers':
+if "customerId" in conf or conf["endpoint"]=='customers':
         dic1 = json.loads(content)
         dic=dic1['attributes']
         dic['id']=dic1['id']    
