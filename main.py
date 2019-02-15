@@ -34,7 +34,7 @@ if "customerId" in conf and "endpoint"!='customers':
         print("Choose parameter \'endpoint\'=\'customers\'", file=sys.stderr)
         sys.exit(1)
 
-if "customerId" in conf:
+if "customerId" in conf and "endpoint"=='customers':
         endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}/{3}".format(conf["project"], conf["application-id"], conf["endpoint"], conf["customerId"])
 else:
         endpoint = "https://{0}.talon.one/v1/applications/{1}/{2}".format(conf["project"], conf["application-id"], conf["endpoint"])
