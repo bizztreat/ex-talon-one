@@ -76,7 +76,7 @@ if "customerId" in conf or conf["endpoint"]=='customers':
         dic['lastActivity']=dic1['lastActivity']
 
 
-        f = open("/data/out/tables/content.csv",'w')
+        f = open("/data/out/tables/{0}.{1}.csv".format(conf["endpoint"],conf["customerId"]),'w')
         w = csv.DictWriter(f, fieldnames=dic.keys())
         w.writeheader()
         w.writerow(dic)
