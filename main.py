@@ -42,7 +42,7 @@ else:
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
 try:
-    r = requests.get(endpoint,headers=headers,timeout=180)
+    r = requests.get(endpoint,headers=headers,timeout=3)
     r.raise_for_status()
 except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh,file=sys.stderr)
@@ -76,7 +76,7 @@ if "customerId" in conf or conf["endpoint"]=='customers':
         dic['lastActivity']=dic1['lastActivity']
 
 
-        f = open("/data/out/tables/{0}_{1}.csv".format(conf["endpoint"],conf["customerId"]),'w')
+        f = open("/data/out/tables/{0}.{1}.csv".format(conf["endpoint"],conf["customerId"]),'w')
         w = csv.DictWriter(f, fieldnames=dic.keys())
         w.writeheader()
         w.writerow(dic)
