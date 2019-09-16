@@ -1,13 +1,18 @@
 #!/bin/bash
+echo "Starting deployment"
+
 set -e
 
 # Obtain the component repository and log in
+echo "Pulling deployment component"
 docker pull quay.io/keboola/developer-portal-cli-v2:latest
 export REPOSITORY=`docker run --rm  \
     -e KBC_DEVELOPERPORTAL_USERNAME \
     -e KBC_DEVELOPERPORTAL_PASSWORD \
     quay.io/keboola/developer-portal-cli-v2:latest \
     ecr:get-repository ${KBC_DEVELOPERPORTAL_VENDOR} ${KBC_DEVELOPERPORTAL_APP}`
+
+echo "Running component"
 
 eval $(docker run --rm \
     -e KBC_DEVELOPERPORTAL_USERNAME \
@@ -16,10 +21,13 @@ eval $(docker run --rm \
     ecr:get-login ${KBC_DEVELOPERPORTAL_VENDOR} ${KBC_DEVELOPERPORTAL_APP})
 
 # Push to the repository
+echo "Pushing"
 docker tag ${APP_IMAGE}:latest ${REPOSITORY}:${TRAVIS_TAG}
 docker tag ${APP_IMAGE}:latest ${REPOSITORY}:latest
 docker push ${REPOSITORY}:${TRAVIS_TAG}
 docker push ${REPOSITORY}:latest
+
+echo "Pushed"
 
 # Update the tag in Keboola Developer Portal -> Deploy to KBC
 if echo ${TRAVIS_TAG} | grep -c '^v\?[0-9]\+\.[0-9]\+\.[0-9]\+$'
