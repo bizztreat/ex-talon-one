@@ -42,22 +42,22 @@ else:
 headers = {"authorization":"Bearer {0}".format(conf["#bearer"])}
 
 try:
-    r = requests.get(endpoint,headers=headers,timeout=3)
+    r = requests.get(endpoint, headers=headers, timeout=180)
     r.raise_for_status()
 except requests.exceptions.HTTPError as errh:
-    print ("Http Error:",errh,file=sys.stderr)
+    print("Http Error:",errh,file=sys.stderr)
     traceback.print_exc(file=sys.stderr)
     sys.exit(1)
 except requests.exceptions.ConnectionError as errc:
-    print ("Error Connecting:",errc,file=sys.stderr)
+    print("Error Connecting:",errc,file=sys.stderr)
     traceback.print_exc(file=sys.stderr)
     sys.exit(1)
 except requests.exceptions.Timeout as errt:
-    print ("Timeout Error:",errt,file=sys.stderr)
+    print("Timeout Error:",errt,file=sys.stderr)
     traceback.print_exc(file=sys.stderr)
     sys.exit(1)
 except requests.exceptions.RequestException as err:
-    print ("OOps: Something Else",err,file=sys.stderr)
+    print("OOps: Something Else",err,file=sys.stderr)
     traceback.print_exc(file=sys.stderr)
     sys.exit(2)
 
